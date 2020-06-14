@@ -15,20 +15,45 @@ module.exports = {
   },
 
   resolve: {
-    extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
+    extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js", ".less", ".png"],
   },
 
   module:{
     // Test file extension to run loader
     rules: [
       {
-        test: /\.ts?$/,
+        test: /\.ts$/,
         exclude: [/node_modules/, /tsOld/],
         loader: "ts-loader"
       },
       {
         test: /\.less$/,
-        loader: 'less-loader', // compiles Less to CSS
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+          },
+          {
+            loader: 'less-loader',
+            options: {
+              lessOptions: {
+                strictMath: true,
+              },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.png$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            outputPath: '/images/',
+            name: '[name].[ext]'
+          }
+        }
       },
     ]
   },
@@ -37,7 +62,7 @@ module.exports = {
   devServer: {
     host: "0.0.0.0",
     port: 8000,
-    publicPath: "/dist/",
+    publicPath: "/web/",
     disableHostCheck: true
   }
 }

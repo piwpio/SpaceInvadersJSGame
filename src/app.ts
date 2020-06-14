@@ -1,3 +1,4 @@
+import "./files";
 import { Game } from "./scripts/game";
 
-Game.getInstance().start();
+Game.getInstance().duck();

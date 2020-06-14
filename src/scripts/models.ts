@@ -1,11 +1,25 @@
 export interface ShipModel {
   $gameWindow: HTMLElement;
+  $element: HTMLElement;
   position: Position;
+  size: Size;
   className: string;
-  prepare(): void;
+  background: string;
+}
+
+export interface ShipConfig {
+  position: Position;
+  size: Size;
+  background: string;
+  className?: string;
 }
 
 export interface Position {
   x: number;
   y: number;
+}
+
+export interface Size {
+  w: number;
+  h: number;
 }

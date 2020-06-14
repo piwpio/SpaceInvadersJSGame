@@ -8,11 +8,11 @@
     "sourceMap": true,
     "baseUrl": "./",
     "paths": {
-      "Utils": ["src/utils"]
+      "@images": ["src/img/"]
     }
   },
   "include": [
-    "./src/**/*.ts"
+    "./src/**/*"
   ],
   "exclude": [
     "node_modules"
