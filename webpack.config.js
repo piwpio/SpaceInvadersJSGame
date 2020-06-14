@@ -1,21 +1,21 @@
-const webpack = require("webpack");
-const path = require("path");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 // http://webpack.github.io/docs/configuration.html
 module.exports = {
   mode: 'development',
   entry:{
-    main: "./src/app.ts",
+    files: "./src/files.ts",
+    app: "./src/app.ts"
   },
 
-  // Outputs compiled bundle to `./web/js/main.js`
   output:{
-    path: __dirname + "/web/",
-    filename: "js/[name].js"
+    path: __dirname + "/dist/",
+    filename: "js/[name].bundle.js"
   },
 
   resolve: {
-    extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js", ".less", ".png"],
+    extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js", ".less", ".png"]
   },
 
   module:{
@@ -30,18 +30,13 @@ module.exports = {
         test: /\.less$/,
         use: [
           {
-            loader: 'style-loader',
+            loader: 'style-loader'
           },
           {
-            loader: 'css-loader',
+            loader: 'css-loader'
           },
           {
-            loader: 'less-loader',
-            options: {
-              lessOptions: {
-                strictMath: true,
-              },
-            },
+            loader: 'less-loader'
           },
         ],
       },
@@ -58,11 +53,18 @@ module.exports = {
     ]
   },
 
+  plugins: [
+    // new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      title: "SpaceInvaders"
+    }),
+  ],
+
   // Enables dev server to be accessed by computers in local network
   devServer: {
     host: "0.0.0.0",
     port: 8000,
-    publicPath: "/web/",
+    publicPath: "/dist/",
     disableHostCheck: true
   }
 }

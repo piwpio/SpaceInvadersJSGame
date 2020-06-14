@@ -4,12 +4,6 @@ import { PlayerShipConfig } from "./config";
 export class Game {
   private static instance: Game;
 
-  private $gameWindow = document.getElementById('game-window');
-  private player: Player;
-
-  private constructor() {
-  };
-
   public static getInstance() {
     if (!Game.instance) {
       Game.instance = new Game();
@@ -17,11 +11,29 @@ export class Game {
     return Game.instance;
   }
 
-  public duck() {
-    this.preparePlayer();
+  private constructor() {};
+
+  private player: Player;
+  private $gameWindow: HTMLElement;
+
+  private prepareMainWindow() {
+    const $mainContainer = document.createElement("div");
+    $mainContainer.id = 'main-container';
+    const $gameWindow = document.createElement("div")
+    $gameWindow.id = 'game-window'
+
+    this.$gameWindow = $gameWindow;
+
+    $mainContainer.appendChild($gameWindow);
+    document.body.appendChild($mainContainer);
   }
 
-  preparePlayer() {
+  private preparePlayer() {
     this.player = new Player(this.$gameWindow, PlayerShipConfig);
+  }
+
+  public duck() {
+    this.prepareMainWindow();
+    this.preparePlayer();
   }
 }
