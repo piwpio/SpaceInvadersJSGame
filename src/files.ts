@@ -1,5 +1,5 @@
 // images
-import './img/player.png';
+import 'Images/player.png';
 
 // css
-import './css/styles.less';
+import 'Styles';

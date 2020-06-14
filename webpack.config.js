@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const path = require('path');
 
 // http://webpack.github.io/docs/configuration.html
 module.exports = {
@@ -15,7 +16,11 @@ module.exports = {
   },
 
   resolve: {
-    extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js", ".less", ".png"]
+    extensions: [".webpack.js", ".web.js", ".less", ".png", ".ts", ".js"],
+    alias: {
+      Images: path.resolve(__dirname, 'src/images/'),
+      Styles$: path.resolve(__dirname, 'src/css/styles.less')
+    }
   },
 
   module:{
