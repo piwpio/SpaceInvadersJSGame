@@ -1,7 +1,12 @@
 import { Ship } from "./ship";
+import { Observable } from "../subject/observable";
 
-export class Player extends Ship {
+export class Player extends Ship implements Observable {
   init() {
-    console.log('init player');
+
+  }
+
+  onSubjectChange(value: any) {
+    console.log(value);
   }
 }

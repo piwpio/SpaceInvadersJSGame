@@ -1,5 +1,6 @@
 import { Player } from "./ship/player";
-import { PlayerShipConfig } from "./config";
+import { GameSize, PlayerShipConfig } from "./config";
+import { KeyboardSubject } from "./subject/keyboardSubject";
 
 export class Game {
   private static instance: Game;
@@ -13,14 +14,17 @@ export class Game {
 
   private constructor() {};
 
-  private player: Player;
   private $gameWindow: HTMLElement;
+  private player: Player;
+  private keyboardSubject: KeyboardSubject;
 
-  private prepareMainWindow() {
+  private createMainWindow() {
     const $mainContainer = document.createElement("div");
     $mainContainer.id = 'main-container';
     const $gameWindow = document.createElement("div")
     $gameWindow.id = 'game-window'
+    $gameWindow.style.width = `${GameSize.w}px`;
+    $gameWindow.style.height = `${GameSize.h}px`;
 
     this.$gameWindow = $gameWindow;
 
@@ -28,12 +32,15 @@ export class Game {
     document.body.appendChild($mainContainer);
   }
 
-  private preparePlayer() {
+  private createPlayer() {
     this.player = new Player(this.$gameWindow, PlayerShipConfig);
+    this.keyboardSubject.addObserver(this.player);
   }
 
   public duck() {
-    this.prepareMainWindow();
-    this.preparePlayer();
+    this.keyboardSubject = new KeyboardSubject();
+
+    this.createMainWindow();
+    this.createPlayer();
   }
 }

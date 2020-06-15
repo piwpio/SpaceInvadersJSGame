@@ -1,3 +1,7 @@
+import { Observable } from "./subject/observable";
+
+/** INTERFACES **/
+
 export interface ShipModel {
   $gameWindow: HTMLElement;
   $element: HTMLElement;
@@ -22,4 +26,16 @@ export interface Position {
 export interface Size {
   w: number;
   h: number;
+}
+
+export interface SubjectModel {
+  observables: Observable[];
+}
+
+/** ENUMERABLE **/
+
+export enum SIDE {
+  LEFT = -1,
+  NONE,
+  RIGHT
 }
