@@ -1,17 +1,19 @@
 import { SubjectModel } from "../models";
 import { Observable } from "./observable";
+import * as _ from 'lodash';
 
 export class Subject implements SubjectModel {
   private _value: any;
-  private previousValue: any;
+  public previousValue: any;
   observables: Observable[] = [];
 
   set value(value: any) {
-    this.previousValue = this._value;
+    this.previousValue = {...this._value};
     this._value = value;
 
-    if (this._value !== this.previousValue)
+    if (!_.isEqual(this._value, this.previousValue)) {
       this.notify();
+    }
   }
 
   get value(): any {

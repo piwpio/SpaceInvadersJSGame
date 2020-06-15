@@ -7,6 +7,7 @@ export interface ShipModel {
   $element: HTMLElement;
   position: Position;
   size: Size;
+  speed: number;
   className: string;
   background: string;
 }
@@ -15,6 +16,7 @@ export interface ShipConfig {
   position: Position;
   size: Size;
   background: string;
+  speed: number;
   className?: string;
 }
 
@@ -30,6 +32,12 @@ export interface Size {
 
 export interface SubjectModel {
   observables: Observable[];
+}
+
+export interface KeyboardSubjectValue {
+ [SIDE.LEFT]: boolean;
+ [SIDE.RIGHT]: boolean;
+ last: SIDE
 }
 
 /** ENUMERABLE **/

@@ -1,5 +1,5 @@
 import { Player } from "./ship/player";
-import { GameSize, PlayerShipConfig } from "./config";
+import { GameRefreshRate, GameSize, PlayerShipConfig } from "./config";
 import { KeyboardSubject } from "./subject/keyboardSubject";
 
 export class Game {
@@ -17,6 +17,12 @@ export class Game {
   private $gameWindow: HTMLElement;
   private player: Player;
   private keyboardSubject: KeyboardSubject;
+
+  // Main loop variables
+  private intervalId: number;
+  private tickLength: number = Math.floor(1000 / GameRefreshRate);
+  private lastTick: number;
+  private lastRender: number;
 
   private createMainWindow() {
     const $mainContainer = document.createElement("div");
@@ -37,10 +43,49 @@ export class Game {
     this.keyboardSubject.addObserver(this.player);
   }
 
+  private schedule(tFrame: number): void {
+    this.intervalId = requestAnimationFrame(this.schedule.bind(this));
+    let nextTick = this.lastTick + this.tickLength;
+    let updateTimes = 0;
+
+    if (tFrame > nextTick) {
+      const timeSinceTick = tFrame - this.lastTick;
+      updateTimes = Math.floor( timeSinceTick / this.tickLength );
+    }
+
+    this.updateTimes(updateTimes);
+    this.render();
+    this.lastRender = tFrame;
+  }
+
+  private updateTimes(updateTimes: number): void {
+    for (let i = 0; i < updateTimes; i++) {
+      this.lastTick = this.lastTick + this.tickLength;
+      this.update();
+    }
+  }
+
+  private update() {
+    this.player.update();
+  }
+
+  private render() {
+    this.player.render();
+  }
+
   public duck() {
+    // Init main subjects
     this.keyboardSubject = new KeyboardSubject();
 
+    // init render and update variables
+    this.lastTick = performance.now();
+    this.lastRender = this.lastTick;
+
+    // create components
     this.createMainWindow();
     this.createPlayer();
+
+    // start main loop
+    this.schedule(performance.now());
   }
 }
