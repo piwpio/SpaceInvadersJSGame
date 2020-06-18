@@ -1,23 +1,27 @@
 import { Ship } from "./ship";
-import { Observable } from "../subject/observable";
-import { KeyboardSubjectValue, SIDE } from "../models";
+import { Observable } from "../observator/observable";
+import { KeyboardSubjectValue, DIRECTION } from "../models";
 import { PlayerXRange } from "../config";
+import { Topic } from "../mediator/topic";
 
-export class Player extends Ship implements Observable {
+export class Player extends Ship implements Observable, Topic {
   keyboardValue: KeyboardSubjectValue = {
-    [SIDE.LEFT]: false,
-    [SIDE.RIGHT]: false,
-    last: SIDE.NONE
+    [DIRECTION.LEFT]: false,
+    [DIRECTION.RIGHT]: false,
+    last: DIRECTION.NONE
   };
 
-  render() {
+  mediatorPublish: Function;
+  mediatorSubscribe: Function;
+
+  render(): void {
     super.render();
   }
 
   update(): void {
-    if (this.keyboardValue['last'] === SIDE.LEFT && this.keyboardValue[SIDE.LEFT]) {
+    if (this.keyboardValue['last'] === DIRECTION.LEFT && this.keyboardValue[DIRECTION.LEFT]) {
       this.position.x = Math.max(this.position.x - this.speed, PlayerXRange.left);
-    } else if (this.keyboardValue['last'] === SIDE.RIGHT && this.keyboardValue[SIDE.RIGHT]) {
+    } else if (this.keyboardValue['last'] === DIRECTION.RIGHT && this.keyboardValue[DIRECTION.RIGHT]) {
       this.position.x = Math.min(this.position.x + this.speed, PlayerXRange.right);
     }
   }

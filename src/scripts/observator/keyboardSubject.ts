@@ -1,14 +1,14 @@
 import { Subject } from "./subject";
-import { KeyboardSubjectValue, SIDE } from "../models";
+import { KeyboardSubjectValue, DIRECTION } from "../models";
 
 export class KeyboardSubject extends Subject {
 
   constructor() {
     super();
     this.value = {
-      [SIDE.LEFT]: false,
-      [SIDE.RIGHT]: false,
-      last: SIDE.NONE
+      [DIRECTION.LEFT]: false,
+      [DIRECTION.RIGHT]: false,
+      last: DIRECTION.NONE
     } as KeyboardSubjectValue;
     this.initEvents();
   }
@@ -16,13 +16,13 @@ export class KeyboardSubject extends Subject {
   private onKeyDown(event: KeyboardEvent): void {
     const value = {...this.value};
     if (event.code === 'ArrowLeft') {
-      value[SIDE.LEFT] = true;
-      value['last'] = SIDE.LEFT;
+      value[DIRECTION.LEFT] = true;
+      value['last'] = DIRECTION.LEFT;
       this.value = value;
     }
     else if (event.code === 'ArrowRight') {
-      value[SIDE.RIGHT] = true;
-      value['last'] = SIDE.RIGHT;
+      value[DIRECTION.RIGHT] = true;
+      value['last'] = DIRECTION.RIGHT;
       this.value = value;
     }
   }
@@ -30,13 +30,13 @@ export class KeyboardSubject extends Subject {
   private onKeyUp(event: KeyboardEvent): void {
     const value = {...this.value};
     if (event.code === 'ArrowLeft') {
-      value[SIDE.LEFT] = false;
-      value['last'] = value[SIDE.RIGHT] ? SIDE.RIGHT : SIDE.NONE;
+      value[DIRECTION.LEFT] = false;
+      value['last'] = value[DIRECTION.RIGHT] ? DIRECTION.RIGHT : DIRECTION.NONE;
       this.value = value;
     }
     else if (event.code === 'ArrowRight') {
-      value[SIDE.RIGHT] = false;
-      value['last'] = value[SIDE.LEFT] ? SIDE.LEFT : SIDE.NONE;
+      value[DIRECTION.RIGHT] = false;
+      value['last'] = value[DIRECTION.LEFT] ? DIRECTION.LEFT : DIRECTION.NONE;
       this.value = value;
     }
   }

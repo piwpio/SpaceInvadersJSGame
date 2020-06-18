@@ -59,4 +59,11 @@ export abstract class Ship implements ShipModel, Renderable {
       this.previousPosition.x = this.position.x;
     }
   }
+
+  public setPosition(x: number, y: number) {
+    this.position.x = x;
+    this.position.y = y;
+    this.$element.style.top = `${this.position.y}px`;
+    this.$element.style.left = `${this.position.x}px`;
+  }
 }

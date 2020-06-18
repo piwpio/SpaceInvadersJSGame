@@ -1,4 +1,4 @@
-import { Observable } from "./subject/observable";
+import { Observable } from "./observator/observable";
 
 /** INTERFACES **/
 
@@ -35,15 +35,17 @@ export interface SubjectModel {
 }
 
 export interface KeyboardSubjectValue {
- [SIDE.LEFT]: boolean;
- [SIDE.RIGHT]: boolean;
- last: SIDE
+ [DIRECTION.LEFT]: boolean;
+ [DIRECTION.RIGHT]: boolean;
+ last: DIRECTION
 }
 
 /** ENUMERABLE **/
 
-export enum SIDE {
-  LEFT = -1,
+export enum DIRECTION {
   NONE,
-  RIGHT
+  LEFT ,
+  RIGHT,
+  UP,
+  DOWN,
 }

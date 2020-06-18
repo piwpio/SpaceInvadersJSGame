@@ -1,6 +1,9 @@
 import { Player } from "./ship/player";
-import { GameRefreshRate, GameSize, PlayerShipConfig } from "./config";
-import { KeyboardSubject } from "./subject/keyboardSubject";
+import { EnemiesPosition, EnemyShipConfig, GameRefreshRate, GameSize, PlayerShipConfig } from "./config";
+import { KeyboardSubject } from "./observator/keyboardSubject";
+import { Mediator } from "./mediator/mediator";
+import { Enemy } from "./ship/enemy";
+import { DIRECTION } from "./models";
 
 export class Game {
   private static instance: Game;
@@ -17,6 +20,9 @@ export class Game {
   private $gameWindow: HTMLElement;
   private player: Player;
   private keyboardSubject: KeyboardSubject;
+  private mediator: Mediator;
+
+  private enemies: Enemy[] = [];
 
   // Main loop variables
   private intervalId: number;
@@ -41,6 +47,17 @@ export class Game {
   private createPlayer() {
     this.player = new Player(this.$gameWindow, PlayerShipConfig);
     this.keyboardSubject.addObserver(this.player);
+    this.mediator.bindTo(this.player);
+  }
+
+  private createEnemies() {
+    for (let i = 0; i < EnemiesPosition.length; i++) {
+      const enemy = new Enemy(this.$gameWindow, EnemyShipConfig, i < 8 ? DIRECTION.RIGHT : DIRECTION.LEFT);
+      enemy.setPosition(EnemiesPosition[i].x, EnemiesPosition[i].y);
+      this.mediator.bindTo(enemy);
+      enemy.mediatorSubscribe('user_moved', enemy.updateUserPosition)
+      this.enemies.push(enemy)
+    }
   }
 
   private schedule(tFrame: number): void {
@@ -67,15 +84,24 @@ export class Game {
 
   private update() {
     this.player.update();
+    this.enemies.forEach(enemy => {
+      enemy.update();
+    })
   }
 
   private render() {
     this.player.render();
+    this.enemies.forEach(enemy => {
+      enemy.render();
+    })
   }
 
   public duck() {
-    // Init main subjects
+    // Init main observable/subject
     this.keyboardSubject = new KeyboardSubject();
+
+    // Init main mediator
+    this.mediator = new Mediator();
 
     // init render and update variables
     this.lastTick = performance.now();
@@ -84,6 +110,7 @@ export class Game {
     // create components
     this.createMainWindow();
     this.createPlayer();
+    this.createEnemies();
 
     // start main loop
     this.schedule(performance.now());
