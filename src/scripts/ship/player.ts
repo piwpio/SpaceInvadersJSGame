@@ -1,14 +1,16 @@
 import { Ship } from "./ship";
 import { Observable } from "../observator/observable";
 import { KeyboardSubjectValue, DIRECTION } from "../models";
-import { PlayerXRange } from "../config";
+import { PlayerXRange, ShipSize } from "../config";
 import { Topic } from "../mediator/topic";
+import { PlayerBullet } from "./playerBullet";
 
 export class Player extends Ship implements Observable, Topic {
   keyboardValue: KeyboardSubjectValue = {
     [DIRECTION.LEFT]: false,
     [DIRECTION.RIGHT]: false,
-    last: DIRECTION.NONE
+    last: DIRECTION.NONE,
+    shoot: false
   };
 
   mediatorPublish: Function;
@@ -20,6 +22,9 @@ export class Player extends Ship implements Observable, Topic {
 
   render(): void {
     super.render();
+    if (this.bullet) {
+      this.bullet.render();
+    }
   }
 
   update(): void {
@@ -29,6 +34,21 @@ export class Player extends Ship implements Observable, Topic {
     } else if (this.keyboardValue['last'] === DIRECTION.RIGHT && this.keyboardValue[DIRECTION.RIGHT]) {
       this.position.x = Math.min(this.position.x + this.speed, PlayerXRange.right);
       this.mediatorPublish('user_moved');
+    }
+
+    if (this.bullet) {
+      this.bullet.update();
+      if (this.bullet.position.y < -100) {
+        this.bullet = null;
+      }
+    }
+
+    if (this.keyboardValue.shoot && this.bullet === null) {
+      this.bullet = new PlayerBullet(
+        this.$gameWindow,
+        {x: this.position.x + ShipSize.w / 2, y: this.position.y},
+        {x: this.position.x + ShipSize.w / 2, y: 0}
+      )
     }
   }
 

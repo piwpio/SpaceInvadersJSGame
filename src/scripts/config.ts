@@ -32,6 +32,8 @@ export const PlayerShipConfig: ShipConfig = {
   className: 'player'
 }
 
+export const PlayerBulletSpeed = 10;
+
 /***** ENEMY SHIP *****/
 
 export const EnemyXRange = {
@@ -54,19 +56,23 @@ export const EnemyShipConfig: ShipConfig = {
 
 export const EnemiesPosition: Position[] = [
   {x: 25, y: 50},
-  {x: 125, y: 50},
-  {x: 225, y: 50},
-  {x: 325, y: 50},
-  {x: 425, y: 50},
-  {x: 525, y: 50},
-  {x: 625, y: 50},
-  {x: 725, y: 50},
-  {x: 25, y: 150},
-  {x: 125, y: 150},
-  {x: 225, y: 150},
-  {x: 325, y: 150},
-  {x: 425, y: 150},
-  {x: 525, y: 150},
-  {x: 625, y: 150},
-  {x: 725, y: 150}
-]
+  // {x: 125, y: 50},
+  // {x: 225, y: 50},
+  // {x: 325, y: 50},
+  // {x: 425, y: 50},
+  // {x: 525, y: 50},
+  // {x: 625, y: 50},
+  // {x: 725, y: 50},
+  // {x: 25, y: 150},
+  // {x: 125, y: 150},
+  // {x: 225, y: 150},
+  // {x: 325, y: 150},
+  // {x: 425, y: 150},
+  // {x: 525, y: 150},
+  // {x: 625, y: 150},
+  // {x: 725, y: 150}
+];
+
+export const EnemyShootFrequencyRandom = 5;
+export const EnemyShootMinDelaySeconds = 3;
+export const EnemyBulletSpeed = 5;

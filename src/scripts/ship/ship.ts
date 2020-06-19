@@ -1,5 +1,6 @@
 import { Position, ShipConfig, ShipModel, Size } from "../models";
 import { Renderable } from "./renderable";
+import { Bullet } from "./bullet";
 
 export abstract class Ship implements ShipModel, Renderable {
   $gameWindow: HTMLElement
@@ -10,6 +11,7 @@ export abstract class Ship implements ShipModel, Renderable {
   speed: number;
   background = ''
   className = '';
+  bullet: Bullet = null;
 
   constructor($gameWindow: HTMLElement, config: ShipConfig) {
     this.$gameWindow = $gameWindow;

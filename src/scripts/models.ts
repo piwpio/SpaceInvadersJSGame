@@ -1,4 +1,5 @@
 import { Observable } from "./observator/observable";
+import { Bullet } from "./ship/bullet";
 
 /** INTERFACES **/
 
@@ -10,6 +11,7 @@ export interface ShipModel {
   speed: number;
   className: string;
   background: string;
+  bullet: Bullet
 }
 
 export interface ShipConfig {
@@ -35,9 +37,10 @@ export interface SubjectModel {
 }
 
 export interface KeyboardSubjectValue {
- [DIRECTION.LEFT]: boolean;
- [DIRECTION.RIGHT]: boolean;
- last: DIRECTION
+  [DIRECTION.LEFT]: boolean;
+  [DIRECTION.RIGHT]: boolean;
+  last: DIRECTION,
+  shoot: boolean;
 }
 
 export interface MediatorTopics {

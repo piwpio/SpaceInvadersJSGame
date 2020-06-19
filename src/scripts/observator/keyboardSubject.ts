@@ -24,6 +24,9 @@ export class KeyboardSubject extends Subject {
       value[DIRECTION.RIGHT] = true;
       value['last'] = DIRECTION.RIGHT;
       this.value = value;
+    } else if (event.code === 'Space') {
+      value['shoot'] = true;
+      this.value = value;
     }
   }
 
@@ -37,6 +40,9 @@ export class KeyboardSubject extends Subject {
     else if (event.code === 'ArrowRight') {
       value[DIRECTION.RIGHT] = false;
       value['last'] = value[DIRECTION.LEFT] ? DIRECTION.LEFT : DIRECTION.NONE;
+      this.value = value;
+    } else if (event.code === 'Space') {
+      value['shoot'] = false;
       this.value = value;
     }
   }
