@@ -67,7 +67,7 @@ export class Game {
   private createPlayer() {
     this.player = new Player(this.$gameWindow, PlayerShipConfig);
     this.keyboardSubject.addObserver(this.player);
-    this.mediator.bindTo(this.player);
+    Mediator.bindTo(this.player);
   }
 
   private createEnemies() {
@@ -78,7 +78,7 @@ export class Game {
       }
       const enemy = new Enemy(this.$gameWindow, EnemyShipConfig, direction);
       enemy.setPosition(EnemiesPosition[i].x, EnemiesPosition[i].y);
-      this.mediator.bindTo(enemy);
+      Mediator.bindTo(enemy);
       enemy.mediatorSubscribe('user_moved', enemy.updateUserPosition);
       this.enemies.push(enemy);
     }
@@ -198,9 +198,6 @@ export class Game {
   public duck() {
     // Init main observable/subject
     this.keyboardSubject = new KeyboardSubject();
-
-    // Init main mediator
-    this.mediator = new Mediator();
 
     // init render and update variables
     this.lastTick = performance.now();

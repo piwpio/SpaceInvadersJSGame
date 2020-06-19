@@ -19,7 +19,7 @@ export class Mediator {
     Mediator.topics[topic].push({context: this, callback: callback});
   }
 
-  public bindTo(topic: Topic) {
+  static bindTo(topic: Topic) {
     topic.mediatorSubscribe = Mediator.subscribe;
     topic.mediatorPublish = Mediator.publish;
   }
