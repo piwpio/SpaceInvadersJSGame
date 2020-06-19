@@ -47,7 +47,7 @@ export const EnemyYRange = {
 export const EnemyShipConfig: ShipConfig = {
   position: { x: -100, y: -100 },
   size: ShipSize,
-  speed: 1,
+  speed: 1.5,
   background: 'url("./images/enemy.png")',
   className: 'enemy'
 }
@@ -73,7 +73,7 @@ export const EnemiesPosition: Position[] = [
 
 /***** BULLETS *****/
 export const BulletSize: Size = {w: 6, h: 6};
-export const PlayerBulletSpeed = 20;
+export const PlayerBulletSpeed = 10;
 export const EnemyShootFrequencyRandom = 5;
 export const EnemyShootMinDelaySeconds = 3;
-export const EnemyBulletSpeed = 5;
+export const EnemyBulletSpeed = 4;
