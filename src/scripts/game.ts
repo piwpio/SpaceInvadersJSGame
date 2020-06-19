@@ -42,6 +42,8 @@ export class Game {
   private createMainWindow() {
     const $mainContainer = document.createElement("div");
     $mainContainer.id = 'main-container';
+    $mainContainer.style.backgroundImage = 'url("./images/background.png")'
+
     const $gameWindow = document.createElement("div")
     $gameWindow.id = 'game-window'
     $gameWindow.style.width = `${GameSize.w}px`;
@@ -108,6 +110,8 @@ export class Game {
         );
         if (isCollidingP2E) {
           enemy.destroy();
+          this.player.bullet.destroy();
+          this.player.bullet = null;
           this.enemies = this.enemies.filter(e => e !== enemy)
           if (!this.enemies.length) {
             this.endGame(ENDGAME.WIN)
