@@ -5,12 +5,12 @@ import { EnemyXRange } from "../config";
 
 export class Enemy extends Ship implements Topic {
   mediatorPublish: Function;
-  mediatorSubscribe: ();
+  mediatorSubscribe: Function;
 
   private direction: DIRECTION;
   private previousDirection: DIRECTION;
   private down = 0;
-  private userPosition: Position
+  private userPosition: Position = {x: 0, y: 0};
 
   constructor($gameWindow: HTMLElement, config: ShipConfig, direction: DIRECTION) {
     super($gameWindow, config);
@@ -52,7 +52,9 @@ export class Enemy extends Ship implements Topic {
   }
 
   updateUserPosition(): void {
-    console.log('updateing user position');
-    this.userPosition = null;
+    const user = document.getElementById('player');
+    // console.log(user.style.left, user.style.top);
+    this.userPosition.x = +user.style.left;
+    this.userPosition.y = +user.style.top;
   }
 }

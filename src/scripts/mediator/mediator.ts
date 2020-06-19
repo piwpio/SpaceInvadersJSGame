@@ -1,24 +1,26 @@
 import { Topic } from "./topic";
+import { MediatorTopics } from "../models";
 
 export class Mediator {
-  topics: Function[] = [];
+  static topics: MediatorTopics = {};
 
-  private publish(topic: string) {
-    if (this.topics[topic] !== undefined) {
-     this.topics.forEach(cb => {
-       cb();
+  static publish(topic: string) {
+    if (Mediator.topics[topic] !== undefined) {
+      Mediator.topics[topic].forEach(el => {
+       el.callback.call(el.context);
      });
     }
   }
 
-  private subscribe(topic: string, callback: Function) {
-    if (this.topics[topic] === undefined) {
-      this.topics[topic].push(callback);
+  static subscribe(topic: string, callback: Function) {
+    if (Mediator.topics[topic] === undefined) {
+      Mediator.topics[topic] = [];
     }
+    Mediator.topics[topic].push({context: this, callback: callback});
   }
 
   public bindTo(topic: Topic) {
-    topic.mediatorSubscribe = this.subscribe;
-    topic.mediatorPublish = this.publish;
+    topic.mediatorSubscribe = Mediator.subscribe;
+    topic.mediatorPublish = Mediator.publish;
   }
 }

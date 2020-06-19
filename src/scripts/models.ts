@@ -40,6 +40,12 @@ export interface KeyboardSubjectValue {
  last: DIRECTION
 }
 
+export interface MediatorTopics {
+  [topic: string]: {
+    context: any;
+    callback: Function}[]
+}
+
 /** ENUMERABLE **/
 
 export enum DIRECTION {

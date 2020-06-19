@@ -111,6 +111,7 @@ export class Game {
     this.createMainWindow();
     this.createPlayer();
     this.createEnemies();
+    this.player.mediatorPublish('user_moved');
 
     // start main loop
     this.schedule(performance.now());
