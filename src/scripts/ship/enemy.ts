@@ -1,7 +1,7 @@
 import { Ship } from "./ship";
 import { Topic } from "../mediator/topic";
 import { DIRECTION, Position, ShipConfig } from "../models";
-import { EnemyShootMinDelaySeconds, EnemyShootFrequencyRandom, EnemyXRange, ShipSize } from "../config";
+import { EnemyShootMinDelaySeconds, EnemyShootFrequencyRandom, EnemyXRange, ShipSize, BulletSize } from "../config";
 import { Bullet } from "./bullet";
 import { EnemyBullet } from "./enemyBullet";
 
@@ -20,6 +20,10 @@ export class Enemy extends Ship implements Topic {
   constructor($gameWindow: HTMLElement, config: ShipConfig, direction: DIRECTION) {
     super($gameWindow, config);
     this.direction = direction;
+  }
+
+  private getNextShootSec(): number {
+    return Math.floor(Math.random() * EnemyShootFrequencyRandom + EnemyShootMinDelaySeconds);
   }
 
   render(): void {
@@ -76,14 +80,9 @@ export class Enemy extends Ship implements Topic {
       this.lastShootTs = Date.now();
       this.bullet = new EnemyBullet(
         this.$gameWindow,
-        {x: this.position.x + ShipSize.w / 2, y: this.position.y + ShipSize.h},
+        {x: this.position.x + ShipSize.w / 2 - BulletSize.w / 2, y: this.position.y + ShipSize.h},
         {x: this.userPosition.x + ShipSize.w / 2, y: this.userPosition.y + ShipSize.h / 2});
     }
-  }
-
-  private getNextShootSec(): number {
-    // return Math.floor(Math.random() * EnemyShootFrequency + 3);
-    return Math.floor(Math.random() * EnemyShootFrequencyRandom + EnemyShootMinDelaySeconds);
   }
 
   updateUserPosition(): void {
@@ -91,6 +90,4 @@ export class Enemy extends Ship implements Topic {
     this.userPosition.x = parseInt(user.style.left);
     this.userPosition.y = parseInt(user.style.top);
   }
-
-
 }

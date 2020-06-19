@@ -58,3 +58,8 @@ export enum DIRECTION {
   UP,
   DOWN,
 }
+
+export enum ENDGAME {
+  WIN,
+  LOST
+}

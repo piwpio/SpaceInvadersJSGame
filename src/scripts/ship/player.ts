@@ -1,7 +1,7 @@
 import { Ship } from "./ship";
 import { Observable } from "../observator/observable";
 import { KeyboardSubjectValue, DIRECTION } from "../models";
-import { PlayerXRange, ShipSize } from "../config";
+import { BulletSize, PlayerXRange, ShipSize } from "../config";
 import { Topic } from "../mediator/topic";
 import { PlayerBullet } from "./playerBullet";
 
@@ -46,7 +46,7 @@ export class Player extends Ship implements Observable, Topic {
     if (this.keyboardValue.shoot && this.bullet === null) {
       this.bullet = new PlayerBullet(
         this.$gameWindow,
-        {x: this.position.x + ShipSize.w / 2, y: this.position.y},
+        {x: this.position.x + ShipSize.w / 2 - BulletSize.w / 2, y: this.position.y - BulletSize.h},
         {x: this.position.x + ShipSize.w / 2, y: 0}
       )
     }

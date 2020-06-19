@@ -68,4 +68,12 @@ export abstract class Ship implements ShipModel, Renderable {
     this.$element.style.top = `${this.position.y}px`;
     this.$element.style.left = `${this.position.x}px`;
   }
+
+  public destroy() {
+    this.$element.remove();
+    if (this.bullet) {
+      this.bullet.destroy();
+      this.bullet = null;
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import { Position } from "../models";
 import { Renderable } from "./renderable";
+import { BulletSize } from "../config";
 
 export class Bullet extends Renderable {
   $gameWindow: HTMLElement;
@@ -24,6 +25,8 @@ export class Bullet extends Renderable {
   private prepare() {
     const $el = document.createElement("div");
     $el.className = `bullet`;
+    $el.style.width = `${BulletSize.w}px`;
+    $el.style.height = `${BulletSize.h}px`;
     this.$element = $el;
   }
 
@@ -70,5 +73,9 @@ export class Bullet extends Renderable {
   update() {
     this.position.x = this.position.x + this.bulletTrajectory.x;
     this.position.y = this.position.y + this.bulletTrajectory.y;
+  }
+
+  destroy() {
+    this.$element.remove();
   }
 }

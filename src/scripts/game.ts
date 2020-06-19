@@ -1,9 +1,17 @@
 import { Player } from "./ship/player";
-import { EnemiesPosition, EnemyShipConfig, GameRefreshRate, GameSize, PlayerShipConfig } from "./config";
+import {
+  BulletSize,
+  EnemiesPosition,
+  EnemyShipConfig,
+  GameRefreshRate,
+  GameSize,
+  PlayerShipConfig,
+  ShipSize
+} from "./config";
 import { KeyboardSubject } from "./observator/keyboardSubject";
 import { Mediator } from "./mediator/mediator";
 import { Enemy } from "./ship/enemy";
-import { DIRECTION } from "./models";
+import { DIRECTION, ENDGAME, Position } from "./models";
 
 export class Game {
   private static instance: Game;
@@ -18,6 +26,7 @@ export class Game {
   private constructor() {};
 
   private $gameWindow: HTMLElement;
+  private $endgameResults: HTMLElement;
   private player: Player;
   private keyboardSubject: KeyboardSubject;
   private mediator: Mediator;
@@ -42,6 +51,15 @@ export class Game {
 
     $mainContainer.appendChild($gameWindow);
     document.body.appendChild($mainContainer);
+  }
+
+  private createEndgameText() {
+    const $endgameResults = document.createElement("div")
+    $endgameResults.id = 'endgame-results'
+    $endgameResults.style.display = `none`;
+
+    this.$gameWindow.appendChild($endgameResults);
+    this.$endgameResults = $endgameResults;
   }
 
   private createPlayer() {
@@ -75,10 +93,66 @@ export class Game {
     this.lastRender = tFrame;
   }
 
+  checkCollision() {
+    // bullet collision check
+    for (let i = 0; i < this.enemies.length; i++) {
+      const enemy = this.enemies[i]
+
+      // player bullet to enemy position
+      if (this.player.bullet) {
+        const isCollidingP2E = this.isCollision(
+          enemy.position,
+          ShipSize,
+          this.player.bullet.position,
+          BulletSize
+        );
+        if (isCollidingP2E) {
+          enemy.destroy();
+          this.enemies = this.enemies.filter(e => e !== enemy)
+          if (!this.enemies.length) {
+            this.endGame(ENDGAME.WIN)
+          }
+        }
+      }
+
+      // enemy bullet to player position
+      if (enemy.bullet) {
+        const isCollidingE2P = this.isCollision(
+          this.player.position,
+          ShipSize,
+          enemy.bullet.position,
+          BulletSize
+        );
+        if (isCollidingE2P) {
+          this.endGame(ENDGAME.LOST)
+        }
+      }
+
+      // enemy position to player position
+      const isCollidingEP2P = this.isCollision(
+        this.player.position,
+        ShipSize,
+        enemy.position,
+        ShipSize
+      );
+      if (isCollidingEP2P) {
+        this.endGame(ENDGAME.LOST);
+      }
+    }
+  }
+
+  private isCollision(aPosition: Position, aSize, bPosition: Position, bSize): boolean {
+    return aPosition.x < bPosition.x + bSize.w / 2
+      && aPosition.x + aSize.w > bPosition.x + bSize.w / 2
+      && aPosition.y < bPosition.y + bSize.h / 2
+      && aPosition.y + aSize.h > bPosition.y + bSize.h / 2;
+  }
+
   private updateTimes(updateTimes: number): void {
     for (let i = 0; i < updateTimes; i++) {
       this.lastTick = this.lastTick + this.tickLength;
       this.update();
+      this.checkCollision();
     }
   }
 
@@ -94,6 +168,23 @@ export class Game {
     this.enemies.forEach(enemy => {
       enemy.render();
     })
+  }
+
+  private endGame(status: ENDGAME) {
+    cancelAnimationFrame(this.intervalId);
+    this.player.destroy();
+    for (let i = 0; i < this.enemies.length; i++) {
+      const enemy = this.enemies[i];
+      enemy.destroy()
+    }
+    this.enemies = [];
+
+    this.$endgameResults.style.display = 'block';
+    if (status === ENDGAME.WIN) {
+      this.$endgameResults.innerText = '!!! Wygrałeś !!!'
+    } else {
+      this.$endgameResults.innerText = '!!! Przegrałeś !!!'
+    }
   }
 
   public duck() {
@@ -112,6 +203,8 @@ export class Game {
     this.createPlayer();
     this.createEnemies();
     this.player.mediatorPublish('user_moved');
+
+    this.createEndgameText();
 
     // start main loop
     this.schedule(performance.now());
