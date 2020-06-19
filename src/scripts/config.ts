@@ -34,6 +34,7 @@ export const PlayerShipConfig: ShipConfig = {
 
 /***** ENEMY SHIP *****/
 
+export const EnemyMoveDown = ShipSize.h * 2;
 export const EnemyXRange = {
   left: 25,
   right: GameSize.w - ShipSize.w - 25
@@ -61,6 +62,7 @@ export const EnemiesPosition: Position[] = [
   {x: 525, y: 50},
   {x: 625, y: 50},
   {x: 725, y: 50},
+
   {x: 25, y: 150},
   {x: 125, y: 150},
   {x: 225, y: 150},
@@ -68,7 +70,16 @@ export const EnemiesPosition: Position[] = [
   {x: 425, y: 150},
   {x: 525, y: 150},
   {x: 625, y: 150},
-  {x: 725, y: 150}
+  {x: 725, y: 150},
+
+  {x: 25, y: 250},
+  {x: 125, y: 250},
+  {x: 225, y: 250},
+  {x: 325, y: 250},
+  {x: 425, y: 250},
+  {x: 525, y: 250},
+  {x: 625, y: 250},
+  {x: 725, y: 250}
 ];
 
 /***** BULLETS *****/

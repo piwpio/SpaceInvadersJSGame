@@ -1,7 +1,14 @@
 import { Ship } from "./ship";
 import { Topic } from "../mediator/topic";
 import { DIRECTION, Position, ShipConfig } from "../models";
-import { EnemyShootMinDelaySeconds, EnemyShootFrequencyRandom, EnemyXRange, ShipSize, BulletSize } from "../config";
+import {
+  EnemyShootMinDelaySeconds,
+  EnemyShootFrequencyRandom,
+  EnemyXRange,
+  ShipSize,
+  BulletSize,
+  EnemyMoveDown
+} from "../config";
 import { Bullet } from "./bullet";
 import { EnemyBullet } from "./enemyBullet";
 
@@ -41,7 +48,7 @@ export class Enemy extends Ship implements Topic {
     } else if (this.direction === DIRECTION.LEFT && this.position.x <= EnemyXRange.left) {
       this.previousDirection = DIRECTION.LEFT;
       this.direction = DIRECTION.DOWN;
-    } else if (this.direction === DIRECTION.DOWN && this.down >= 100) {
+    } else if (this.direction === DIRECTION.DOWN && this.down >= EnemyMoveDown) {
       this.direction = this.previousDirection === DIRECTION.RIGHT ? DIRECTION.LEFT : DIRECTION.RIGHT;
       this.down = 0;
     } else if (this.direction === DIRECTION.DOWN) {

@@ -11,7 +11,7 @@ import {
 import { KeyboardSubject } from "./observator/keyboardSubject";
 import { Mediator } from "./mediator/mediator";
 import { Enemy } from "./ship/enemy";
-import { DIRECTION, ENDGAME, Position } from "./models";
+import { DIRECTION, ENDGAME, Position, Size } from "./models";
 
 export class Game {
   private static instance: Game;
@@ -71,12 +71,16 @@ export class Game {
   }
 
   private createEnemies() {
+    let direction: DIRECTION = DIRECTION.LEFT;
     for (let i = 0; i < EnemiesPosition.length; i++) {
-      const enemy = new Enemy(this.$gameWindow, EnemyShipConfig, i < 8 ? DIRECTION.RIGHT : DIRECTION.LEFT);
+      if (i % 8 === 0) {
+        direction = direction === DIRECTION.LEFT ? DIRECTION.RIGHT : DIRECTION.LEFT;
+      }
+      const enemy = new Enemy(this.$gameWindow, EnemyShipConfig, direction);
       enemy.setPosition(EnemiesPosition[i].x, EnemiesPosition[i].y);
       this.mediator.bindTo(enemy);
-      enemy.mediatorSubscribe('user_moved', enemy.updateUserPosition)
-      this.enemies.push(enemy)
+      enemy.mediatorSubscribe('user_moved', enemy.updateUserPosition);
+      this.enemies.push(enemy);
     }
   }
 
@@ -137,7 +141,7 @@ export class Game {
         this.player.position,
         ShipSize,
         enemy.position,
-        ShipSize
+        {w: ShipSize.w, h: ShipSize.h * 2}
       );
       if (isCollidingEP2P) {
         this.endGame(ENDGAME.LOST);
@@ -145,7 +149,7 @@ export class Game {
     }
   }
 
-  private isCollision(aPosition: Position, aSize, bPosition: Position, bSize): boolean {
+  private isCollision(aPosition: Position, aSize: Size, bPosition: Position, bSize: Size): boolean {
     return aPosition.x < bPosition.x + bSize.w / 2
       && aPosition.x + aSize.w > bPosition.x + bSize.w / 2
       && aPosition.y < bPosition.y + bSize.h / 2
