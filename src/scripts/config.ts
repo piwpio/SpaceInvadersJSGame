@@ -72,19 +72,19 @@ export const EnemiesPosition: Position[] = [
   {x: 625, y: 150},
   {x: 725, y: 150},
 
-  {x: 25, y: 250},
-  {x: 125, y: 250},
-  {x: 225, y: 250},
-  {x: 325, y: 250},
-  {x: 425, y: 250},
-  {x: 525, y: 250},
-  {x: 625, y: 250},
-  {x: 725, y: 250}
+  // {x: 25, y: 250},
+  // {x: 125, y: 250},
+  // {x: 225, y: 250},
+  // {x: 325, y: 250},
+  // {x: 425, y: 250},
+  // {x: 525, y: 250},
+  // {x: 625, y: 250},
+  // {x: 725, y: 250}
 ];
 
 /***** BULLETS *****/
 export const BulletSize: Size = {w: 6, h: 6};
-export const PlayerBulletSpeed = 10;
-export const EnemyShootFrequencyRandom = 5;
-export const EnemyShootMinDelaySeconds = 3;
+export const PlayerBulletSpeed = 14;
+export const EnemyShootFrequencyRandom = 10;
+export const EnemyShootMinDelaySeconds = 2;
 export const EnemyBulletSpeed = 4;

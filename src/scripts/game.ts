@@ -179,7 +179,17 @@ export class Game {
   }
 
   private endGame(status: ENDGAME) {
+    // clear main interval
     cancelAnimationFrame(this.intervalId);
+
+    // clear observer
+    this.keyboardSubject.removeObserver(this.player);
+    this.keyboardSubject.removeEvents();
+
+    //clear mediator
+    Mediator.clear();
+
+    // clear ships
     this.player.destroy();
     for (let i = 0; i < this.enemies.length; i++) {
       const enemy = this.enemies[i];

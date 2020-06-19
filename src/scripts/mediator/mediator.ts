@@ -23,4 +23,8 @@ export class Mediator {
     topic.mediatorSubscribe = Mediator.subscribe;
     topic.mediatorPublish = Mediator.publish;
   }
+
+  static clear() {
+    this.topics = {};
+  }
 }
