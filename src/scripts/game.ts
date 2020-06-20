@@ -29,7 +29,6 @@ export class Game {
   private $endgameResults: HTMLElement;
   private player: Player;
   private keyboardSubject: KeyboardSubject;
-  private mediator: Mediator;
 
   private enemies: Enemy[] = [];
 

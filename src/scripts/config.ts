@@ -48,7 +48,7 @@ export const EnemyYRange = {
 export const EnemyShipConfig: ShipConfig = {
   position: { x: -100, y: -100 },
   size: ShipSize,
-  speed: 1.5,
+  speed: 1.2,
   background: 'url("./images/enemy.png")',
   className: 'enemy'
 }
@@ -72,14 +72,14 @@ export const EnemiesPosition: Position[] = [
   {x: 625, y: 150},
   {x: 725, y: 150},
 
-  // {x: 25, y: 250},
-  // {x: 125, y: 250},
-  // {x: 225, y: 250},
-  // {x: 325, y: 250},
-  // {x: 425, y: 250},
-  // {x: 525, y: 250},
-  // {x: 625, y: 250},
-  // {x: 725, y: 250}
+  {x: 25, y: 250},
+  {x: 125, y: 250},
+  {x: 225, y: 250},
+  {x: 325, y: 250},
+  {x: 425, y: 250},
+  {x: 525, y: 250},
+  {x: 625, y: 250},
+  {x: 725, y: 250}
 ];
 
 /***** BULLETS *****/
